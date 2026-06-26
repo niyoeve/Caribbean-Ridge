@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caribbean Ridge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#050508; color:#F3F3F3; font-family:'Inter',sans-serif; }
+    a { color:inherit; text-decoration:none; cursor:pointer; }
+    .container { max-width:1100px; margin:0 auto; padding:0 1.5rem; }
+    :root { --gold:#D4A017; --orange:#FF7A00; --teal:#00D9D9; --surface:#101116; --gray:#9A9AA5; --white:#F3F3F3; }
+    nav { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.5rem; background:rgba(5,5,8,0.92); backdrop-filter:blur(12px); border-bottom:1px solid rgba(212,160,23,0.15); position:sticky; top:0; z-index:100; flex-wrap:wrap; gap:0.5rem; }
+    .nav-logo { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; background:linear-gradient(90deg,#D4A017,#FF7A00); -webkit-background-clip:text; -webkit-text-fill-color:transparent; cursor:pointer; }
+    .nav-links { display:flex; gap:1.2rem; list-style:none; flex-wrap:wrap; }
+    .nav-links a { font-size:0.7rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#9A9AA5; transition:0.2s; cursor:pointer; }
+    .nav-links a:hover, .nav-links a.active { color:#D4A017; }
+    .nav-cta { background:linear-gradient(135deg,#D4A017,#FF7A00); color:#050508; padding:0.4rem 1.2rem; border-radius:4px; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; border:none; cursor:pointer; transition:0.3s; }
+    .nav-cta:hover { transform:scale(1.05); }
+    .page { display:none; padding:4rem 0 2rem; }
+    .page.active { display:block; }
+    .btn { padding:0.8rem 2.2rem; border-radius:4px; font-weight:700; font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; border:none; cursor:pointer; transition:0.3s; display:inline-block; }
+    .btn-primary { background:linear-gradient(135deg,#D4A017,#FF7A00); color:#050508; box-shadow:0 0 30px rgba(212,160,23,0.3); }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 50px rgba(212,160,23,0.5); }
+    .btn-ghost { background:transparent; border:1px solid rgba(0,217,217,0.3); color:#00D9D9; }
+    .btn-ghost:hover { background:rgba(0,217,217,0.07); }
+    .section-label { font-size:0.6rem; letter-spacing:0.4em; text-transform:uppercase; color:#D4A017; margin-bottom:0.5rem; }
+    .section-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.5rem,6vw,4.5rem); line-height:1.1; }
+    .section-title em { font-style:normal; background:linear-gradient(90deg,#D4A017,#FF7A00); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .section-desc { max-width:600px; color:#9A9AA5; font-size:1rem; line-height:1.7; margin:1rem 0 2rem; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+    .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
+    @media(max-width:700px){ .grid-2, .grid-3, .grid-4 { grid-template-columns:1fr; } }
+    .card { background:#101116; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:1.5rem; transition:0.3s; }
+    .card:hover { border-color:rgba(212,160,23,0.3); transform:translateY(-3px); }
+    .card .icon { font-size:2.2rem; display:block; margin-bottom:0.8rem; }
+    .card h3 { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; color:#D4A017; }
+    .card p { font-size:0.85rem; color:#9A9AA5; line-height:1.6; margin-top:0.3rem; }
+    .hero { min-height:80vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:2rem 1.5rem; background:radial-gradient(ellipse at 30% 50%, rgba(212,160,23,0.08), transparent 70%), radial-gradient(ellipse at 70% 30%, rgba(0,217,217,0.06), transparent 60%), #050508; }
+    .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(4rem,12vw,8rem); line-height:0.9; }
+    .hero h1 .gold { background:linear-gradient(135deg,#D4A017,#FF7A00); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .hero h1 .ridge { color:#F3F3F3; -webkit-text-stroke:1px rgba(212,160,23,0.3); }
+    .hero p { font-size:1.2rem; color:#00D9D9; font-style:italic; font-family:'Playfair Display',serif; margin:1rem 0; }
+    .hero-sub { font-size:0.8rem; color:#9A9AA5; letter-spacing:0.2em; text-transform:uppercase; }
+    .hero-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:2rem; }
+    .lowish-showcase { background:rgba(212,160,23,0.06); border-left:4px solid #D4A017; padding:2rem; border-radius:8px; }
+    .lowish-showcase h3 { font-family:'Bebas Neue',sans-serif; font-size:2rem; color:#D4A017; }
+    .lowish-showcase .genre { font-size:0.9rem; color:#00D9D9; letter-spacing:0.1em; }
+    .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+    @media(max-width:700px){ .pricing-grid { grid-template-columns:1fr; } }
+    .pricing-card { background:#101116; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:2rem; text-align:center; }
+    .pricing-card.featured { border-color:#D4A017; background:rgba(212,160,23,0.04); }
+    .pricing-card .price { font-size:3rem; font-weight:700; color:#D4A017; }
+    .pricing-card .currency { font-size:1rem; color:#9A9AA5; }
+    .pricing-card ul { list-style:none; padding:0; margin:1rem 0; font-size:0.85rem; color:#9A9AA5; }
+    .pricing-card li { padding:0.3rem 0; }
+    .pricing-card .btn { width:100%; }
+    .badge { background:linear-gradient(90deg,#D4A017,#FF7A00); color:#050508; display:inline-block; padding:0.2rem 0.8rem; border-radius:20px; font-size:0.7rem; font-weight:700; }
+    .investor-cta { background:linear-gradient(135deg,rgba(212,160,23,0.08),rgba(0,217,217,0.04)); border:1px solid rgba(212,160,23,0.2); border-radius:12px; padding:3rem; text-align:center; }
+    .investor-cta h2 { font-family:'Bebas Neue',sans-serif; font-size:3rem; }
+    .investor-cta .highlight { color:#D4A017; }
+    .agent-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    @media(max-width:700px){ .agent-grid { grid-template-columns:1fr; } }
+    .agent-item { background:#101116; border:1px solid rgba(0,217,217,0.15); border-radius:6px; padding:1rem; text-align:center; }
+    .agent-item .name { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; color:#00D9D9; }
+    .agent-item .role { font-size:0.8rem; color:#9A9AA5; }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin:2rem 0; }
+    @media(max-width:700px){ .contact-grid { grid-template-columns:1fr; } }
+    .form-group { margin-bottom:1.5rem; }
+    .form-group label { display:block; font-size:0.8rem; font-weight:600; color:#9A9AA5; margin-bottom:0.3rem; }
+    .form-group input, .form-group textarea { width:100%; background:#101116; border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:0.8rem; color:#F3F3F3; font-family:'Inter',sans-serif; }
+    .form-group input:focus, .form-group textarea:focus { outline:none; border-color:#D4A017; }
+    .contact-info { background:#101116; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:2rem; }
+    .contact-info h3 { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; color:#D4A017; margin-bottom:1rem; }
+    .contact-info p { color:#9A9AA5; line-height:1.8; }
+    footer { padding:3rem 1.5rem; text-align:center; border-top:1px solid rgba(255,255,255,0.05); margin-top:2rem; }
+    .brands { display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; font-family:'Bebas Neue',sans-serif; font-size:1rem; margin-bottom:1rem; }
+    .brands .nebody { background:linear-gradient(90deg,#E74C3C,#A8D44F,#00B8D4); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .brands .gurella { background:linear-gradient(90deg,#FF7A00,#D4A017); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .brands .ridge { background:linear-gradient(90deg,#D4A017,#FF7A00); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .tagline { font-style:italic; color:#00D9D9; margin-bottom:0.5rem; }
+    .legal { font-size:0.65rem; color:#9A9AA5; }
+
+    function navigate(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + page).classList.add('active');
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      document.querySelector(`.nav-links a[data-page="${page}"]`).classList.add('active');
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo" onclick="navigate('home')">Caribbean Ridge</div>
+  <ul class="nav-links">
+    <li><a class="active" data-page="home" onclick="navigate('home')">Home</a></li>
+    <li><a data-page="about" onclick="navigate('about')">About</a></li>
+    <li><a data-page="pricing" onclick="navigate('pricing')">Pricing</a></li>
+    <li><a data-page="investors" onclick="navigate('investors')">Investors</a></li>
+    <li><a data-page="lowish" onclick="navigate('lowish')">L.O.W.I.S.H.</a></li>
+    <li><a data-page="contact" onclick="navigate('contact')">Contact</a></li>
+  </ul>
+  <a class="nav-cta" onclick="navigate('pricing')">Get Started</a>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div>
+      <div style="font-size:0.7rem; letter-spacing:0.3em; color:#D4A017; margin-bottom:1rem;">NEbody Studios × Gurella Film</div>
+      <h1><span class="gold">Caribbean</span><br><span class="ridge">Ridge</span></h1>
+      <p>Bringing Our Stories to Life</p>
+      <div class="hero-sub">Creator Intelligence Platform · Caribbean-Built · Globally Ready</div>
+      <div class="hero-buttons">
+        <a class="btn btn-primary" onclick="navigate('pricing')">Start Free – No Card</a>
+        <a class="btn btn-ghost" onclick="navigate('lowish')">See L.O.W.I.S.H.</a>
+      </div>
+    </div>
+  </section>
+  <section style="padding:4rem 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+    <div class="container">
+      <div class="section-label">Why Caribbean Ridge</div>
+      <h2 class="section-title">Not a course.<br><em>A complete system.</em></h2>
+      <p class="section-desc">Built by Caribbean creators for Caribbean creators – AI‑powered production intelligence from idea to locked output.</p>
+      <div class="grid-2">
+        <div class="card"><span class="icon">🎬</span><h3>Story Development</h3><p>Script, character arcs, world‑building with real examples.</p></div>
+        <div class="card"><span class="icon">🖼️</span><h3>Visual Output</h3><p>Kling, RunwayML, Pika – prompts mapped to your production type.</p></div>
+        <div class="card"><span class="icon">📋</span><h3>Storyboarding</h3><p>Shot‑by‑shot for every format – film, graphic novel, animation.</p></div>
+        <div class="card"><span class="icon">🧠</span><h3>Prompt Engineering</h3><p>200+ templates built from live productions.</p></div>
+      </div>
+    </div>
+  </section>
+  <section style="padding:4rem 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+    <div class="container">
+      <div class="section-label">What You Can Build</div>
+      <h2 class="section-title">Eight creator paths.<br><em>Your format, your flow.</em></h2>
+      <p class="section-desc">Dedicated workflows for each format – from feature films to graphic novels.</p>
+      <div class="grid-4">
+        <div class="card"><span class="icon">🎥</span><h3>Film & Feature</h3><p>Full pre‑production to post.</p></div>
+        <div class="card"><span class="icon">📱</span><h3>Shorts & Mobile</h3><p>Gurella four‑tool arsenal.</p></div>
+        <div class="card"><span class="icon">📖</span><h3>Graphic Novel</h3><p>Panel breakdown, prompts.</p></div>
+        <div class="card"><span class="icon">✍️</span><h3>Novel & Book</h3><p>World‑building, AI writing.</p></div>
+        <div class="card"><span class="icon">🖌️</span><h3>Book Illustration</h3><p>Character consistency.</p></div>
+        <div class="card"><span class="icon">🎙️</span><h3>Documentary</h3><p>Research, interviews, archive.</p></div>
+        <div class="card"><span class="icon">🎞️</span><h3>Animated Series</h3><p>Character design, AI animation.</p></div>
+        <div class="card"><span class="icon">🎵</span><h3>Music Video</h3><p>Treatment, storyboard per track.</p></div>
+      </div>
+    </div>
+  </section>
+  <section style="padding:4rem 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+    <div class="container">
+      <div class="section-label">Live Case Study</div>
+      <h2 class="section-title">L.O.W.I.S.H.<br><em>Proof of concept.</em></h2>
+      <p class="section-desc">Caribbean Mythological · Sci‑Fi · Horror · Espionage · Thriller · Super Hero. Built entirely inside Caribbean Ridge.</p>
+      <div class="lowish-showcase">
+        <h3>League of West Indian Super Heroes</h3>
+        <div class="genre">Caribbean Mythological · Sci‑Fi · Horror · Espionage · Thriller · Super Hero</div>
+        <p style="margin:1rem 0; color:#9A9AA5;">Six‑agent AI system. Episodes 1 & 2 locked – scripts, storyboards, VFX. Every template replicable.</p>
+        <a class="btn btn-ghost" style="display:inline-block; padding:0.5rem 1.5rem;" onclick="navigate('lowish')">Explore Full Case Study →</a>
+      </div>
+    </div>
+  </section>
+  <section style="padding:4rem 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+    <div class="container">
+      <div class="section-label">AI Ecosystem</div>
+      <h2 class="section-title">Tools that work.<br><em>Together.</em></h2>
+      <p class="section-desc">Integrated with Kling, RunwayML, Pika – plus our own six‑agent production system.</p>
+      <div class="grid-3">
+        <div class="card"><span class="icon">🤖</span><h3>SHELLY</h3><p>Story architect – canon bible, character arcs.</p></div>
+        <div class="card"><span class="icon">🎨</span><h3>WILBUR</h3><p>Visual director – prompt engineering, style locking.</p></div>
+        <div class="card"><span class="icon">🔒</span><h3>CIPHER</h3><p>IP protection – N.E.O. Canon Protocol.</p></div>
+        <div class="card"><span class="icon">📅</span><h3>GRAVE</h3><p>Production scheduler – shot lists, location scouting.</p></div>
+        <div class="card"><span class="icon">📖</span><h3>MYTHOS</h3><p>World‑builder – lore, mythology, cultural accuracy.</p></div>
+        <div class="card"><span class="icon">✂️</span><h3>FRACTURE</h3><p>Editor – assembly, colour grading, sound.</p></div>
+      </div>
+    </div>
+  </section>
+  <section style="padding:4rem 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+    <div class="container">
+      <div class="section-label">Community</div>
+      <h2 class="section-title">Build together.<br><em>Grow together.</em></h2>
+      <p class="section-desc">Connect with creators across the region, share templates, and co‑produce.</p>
+      <div class="grid-2">
+        <div class="card"><span class="icon">🌐</span><h3>Regional Network</h3><p>Creators from Trinidad, Jamaica, Barbados, Brazil, and beyond.</p></div>
+        <div class="card"><span class="icon">🧑‍🤝‍🧑</span><h3>Co‑Production Hub</h3><p>Find collaborators, pool resources, split revenue.</p></div>
+        <div class="card"><span class="icon">📚</span><h3>Template Exchange</h3><p>Share and reuse prompt templates, storyboards, workflows.</p></div>
+        <div class="card"><span class="icon">🎤</span><h3>Live Events</h3><p>Monthly creator meetups, pitch sessions, showcases.</p></div>
+      </div>
+    </div>
+  </section>
+  <section style="padding:4rem 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+    <div class="container">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-title">Choose your<br><em>level.</em></h2>
+      <p class="section-desc">Start free. Scale when you're ready. Regional pricing adjusts to your local currency.</p>
+      <div class="pricing-grid">
+        <div class="pricing-card"><h3 style="color:#9A9AA5;">Explorer</h3><div class="price">$0</div><div class="currency">/mo</div><ul><li>1 Creator Path</li><li>10 prompts</li><li>Story dev intro</li></ul><a class="btn btn-ghost" onclick="navigate('pricing')">Start Free</a></div>
+        <div class="pricing-card featured"><div class="badge">Most Popular</div><h3 style="color:#D4A017;">Creator</h3><div class="price">$29</div><div class="currency">/mo (~TTD 197)</div><ul><li>All 8 Paths</li><li>200+ prompts</li><li>Full storyboard & VFX</li></ul><a class="btn btn-primary" onclick="navigate('pricing')">Get Creator Access</a></div>
+        <div class="pricing-card"><h3 style="color:#00D9D9;">Studio Pro</h3><div class="price">$79</div><div class="currency">/mo (~TTD 537)</div><ul><li>Everything in Creator</li><li>Six‑agent system</li><li>Team collaboration</li></ul><a class="btn btn-ghost" onclick="navigate('pricing')">Get Studio Access</a></div>
+      </div>
+    </div>
+  </section>
+  <section style="padding:4rem 0;">
+    <div class="container">
+      <div class="investor-cta">
+        <h2>Build the <span class="highlight">Caribbean creator economy</span> with us.</h2>
+        <p style="color:#9A9AA5; max-width:600px; margin:1rem auto;">First‑mover advantage in a $2.3B market. Join our seed round.</p>
+        <a class="btn btn-primary" onclick="navigate('investors')">View Investor Deck →</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ABOUT -->
+<div class="page" id="page-about">
+  <div class="container">
+    <div style="text-align:center; padding:3rem 0;">
+      <h1 style="font-family:'Bebas Neue',sans-serif; font-size:4rem;">About <span style="color:#D4A017;">Caribbean Ridge</span></h1>
+      <p style="max-width:700px; margin:1rem auto; color:#9A9AA5; font-size:1.1rem; line-height:1.8;">We are a creative intelligence platform built by Caribbean creators, for Caribbean creators. Our mission is to democratize storytelling by providing the tools, workflows, and regional infrastructure to produce world‑class content on a budget.</p>
+    </div>
+    <section style="padding:2rem 0;">
+      <h2 class="section-title">Who <em>we are</em></h2>
+      <div class="grid-2">
+        <div class="card"><h3>NEbody Studios</h3><p>Production, IP development, and content creation. We build from the ground up.</p></div>
+        <div class="card"><h3>Gurella Film Productions & Rentals</h3><p>Equipment, guerrilla workflows, and rental infrastructure – practical filmmaking without Hollywood overhead.</p></div>
+        <div class="card"><h3>Caribbean Ridge</h3><p>The platform that ties it all together – AI‑powered production intelligence for every format.</p></div>
+        <div class="card"><h3>Our Advisors</h3><p>Caribbean tech, finance, and creative leaders who believe in regional storytelling.</p></div>
+      </div>
+    </section>
+    <section style="padding:2rem 0;">
+      <h2 class="section-title">Our <em>values</em></h2>
+      <div class="grid-2">
+        <div class="card"><h3>🔑 Ingenuity over capital</h3><p>We believe the best stories come from resourcefulness, not budget.</p></div>
+        <div class="card"><h3>🌍 Regional first</h3><p>Built for Trinidad, Jamaica, Barbados, Brazil, and every corner of the Caribbean.</p></div>
+        <div class="card"><h3>🔒 IP protection</h3><p>Your work belongs to you – we protect it with the N.E.O. Canon Protocol.</p></div>
+        <div class="card"><h3>🤝 Community</h3><p>Creators supporting creators – co‑production, sharing, and collective growth.</p></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="page" id="page-pricing">
+  <div class="container">
+    <div style="text-align:center; padding:3rem 0;">
+      <h1 style="font-family:'Bebas Neue',sans-serif; font-size:4rem;">Choose your <span style="color:#D4A017;">level</span></h1>
+      <p style="color:#9A9AA5; max-width:600px; margin:0.5rem auto;">Start free. Scale when you're ready. Regional pricing adjusts to your local currency.</p>
+    </div>
+    <div class="pricing-grid" style="margin:2rem 0;">
+      <div class="pricing-card"><h3 style="color:#9A9AA5;">Explorer</h3><div class="price">$0</div><div class="currency">/mo</div><ul><li>1 Creator Path</li><li>10 prompts</li><li>Story dev intro</li><li>Gurella Code access</li></ul><button class="btn btn-ghost" onclick="alert('Explorer – Free. No payment needed.')">Start Free</button></div>
+      <div class="pricing-card featured"><div class="badge">Most Popular</div><h3 style="color:#D4A017;">Creator</h3><div class="price">$29</div><div class="currency">/mo (~TTD 197)</div><ul><li>All 8 Paths</li><li>200+ prompts</li><li>Full storyboard & VFX</li><li>L.O.W.I.S.H. case study</li></ul><a href="https://app.usesendana.com/checkout/YOUR_SENDANA_CREATOR_LINK" target="_blank" class="btn btn-primary">Get Creator Access</a></div>
+      <div class="pricing-card"><h3 style="color:#00D9D9;">Studio Pro</h3><div class="price">$79</div><div class="currency">/mo (~TTD 537)</div><ul><li>Everything in Creator</li><li>Six‑agent AI system</li><li>Team collaboration</li><li>N.E.O. Canon Protection</li></ul><a href="https://app.usesendana.com/checkout/YOUR_SENDANA_PRO_LINK" target="_blank" class="btn btn-ghost" style="border-color:#D4A017; color:#D4A017;">Get Studio Access</a></div>
+    </div>
+    <div style="background:rgba(0,217,217,0.05); border:1px solid rgba(0,217,217,0.2); border-radius:8px; padding:1.5rem; text-align:center; margin-top:1rem;">
+      <p style="color:#9A9AA5;">Secure payments powered by <strong style="color:#00D9D9;">Sendana</strong> – regional, reliable, and built for Caribbean creators.</p>
+      <p style="font-size:0.8rem; color:#9A9AA5; margin-top:0.3rem;">Accepted: USD, TTD, JMD, BBD, USDC, and more.</p>
+    </div>
+  </div>
+</div>
+
+<!-- INVESTORS -->
+<div class="page" id="page-investors">
+  <div class="container">
+    <div style="text-align:center; padding:3rem 0;">
+      <h1 style="font-family:'Bebas Neue',sans-serif; font-size:4rem;">Invest in <span style="color:#D4A017;">Caribbean Ridge</span></h1>
+      <div style="font-size:5rem; font-weight:700; color:#D4A017;">$2.3B+</div>
+      <p style="color:#9A9AA5; font-size:1.2rem;">Caribbean creative economy · First‑mover advantage</p>
+    </div>
+    <section style="padding:2rem 0;">
+      <h2 class="section-title">Why <em>invest</em></h2>
+      <div class="grid-2">
+        <div class="card"><h3>🚀 The Opportunity</h3><p>First AI‑powered production platform for the region. 50+ beta creators, 8 formats, capturing a rapidly growing market.</p></div>
+        <div class="card"><h3>💰 Business Model</h3><p>SaaS ($29–$79/mo) + transaction fees. Projected $2M ARR by Year 2 with 5,000 paying creators.</p></div>
+        <div class="card"><h3>🔒 IP Protection</h3><p>N.E.O. Canon Protocol – blockchain‑timestamped IP ownership. Unique value proposition.</p></div>
+        <div class="card"><h3>🌎 Regional Infrastructure</h3><p>Integrated with Sendana, local rental partners, and a growing community of Caribbean storytellers.</p></div>
+      </div>
+    </section>
+    <section style="padding:2rem 0;" id="deck">
+      <h2 class="section-title">The <em>deck</em></h2>
+      <p style="color:#9A9AA5; margin-bottom:1.5rem;">Full investor presentation – 8 slides covering market, product, team, and financials.</p>
+      <div style="background:#101116; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:2rem;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div><strong style="color:#D4A017;">1. Title</strong><br><span style="color:#9A9AA5;">Caribbean Ridge: Creator Intelligence Platform</span></div>
+          <div><strong style="color:#D4A017;">2. Problem</strong><br><span style="color:#9A9AA5;">Caribbean creators lack infrastructure, payment rails, and IP protection</span></div>
+          <div><strong style="color:#D4A017;">3. Solution</strong><br><span style="color:#9A9AA5;">All‑in‑one platform: story dev, visual output, storyboarding, prompt engineering</span></div>
+          <div><strong style="color:#D4A017;">4. Market</strong><br><span style="color:#9A9AA5;">$2.3B creative economy, 20M diaspora, 50+ beta creators</span></div>
+          <div><strong style="color:#D4A017;">5. Case Study</strong><br><span style="color:#9A9AA5;">L.O.W.I.S.H. – Caribbean Mythological · Sci‑Fi · Horror · Espionage · Thriller · Super Hero</span></div>
+          <div><strong style="color:#D4A017;">6. Business Model</strong><br><span style="color:#9A9AA5;">Explorer (free), Creator ($29/mo), Studio Pro ($79/mo) –
